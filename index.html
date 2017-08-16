@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Passwords</title>
+	<!-- CSS -->
+	<link rel="shortcut icon" href="assets/img/favicon.ico" type="image/x-icon" />
+	<link rel="stylesheet" href="assets/css/bootstrap.css" type="text/css" />
+	<link rel="stylesheet" href="assets/css/passwordManager.css" type="text/css" />
+	<!-- JS -->
+	<script src="assets/js/bootstrap.js" type="text/javascript"></script>
+	<script src="assets/js/jquery.min.js" type="text/javascript"></script>
+</head>
+<body>
+
+	<div id="header">
+		<h3 id="middleHeaderObject" class="headerObjects" title="LG Password Manager"><i class="glyphicon glyphicon-lock"></i>LGPM<i class="glyphicon glyphicon-lock"></i></h3>
+		<h3 id="rightHeaderObject" class="headerObjects" title="LG Password Manager"><i style="color:#79BDB4" class="glyphicon glyphicon-user"></i> Lee Grix</h3>
+	</div>
+	<div id="sideNav">
+		<h2 id="sideNavTitle">Your Folders - <button onclick="refreshFolders()">Refresh</button></h2>
+		<h4 id="sideNavSub" onclick="folderNew()" title="New Folder"><i style="color:#79BDB4" class="glyphicon glyphicon-plus"></i> New</h4>
+		<hr />
+		<div class="row" style="width:100%;">
+		<div class="col-lg-6" style="width:90%;margin-left:20px;">
+    		<div class="input-group">
+      			<input id="folderSearcher" type="text" class="form-control" placeholder="Search for..." onkeypress="return runSearch(event)" />
+      			<span class="input-group-btn">
+        			<button type="button" id="searchFolders" title="Search! [enter]" onclick="searchFolders()">Search!</button>
+      			</span>
+    		</div><!-- /input-group -->
+ 		 </div><!-- /.col-lg-6 -->
+ 		 </div><!-- row -->
+		<table id="folderTbl">
+		<tr>
+			<td id="userFolders">
+				<!-- <input type="text" id="folderTitle" onclick="folderTitle()" /> -->
+			</td>
+		</tr>
+		</table>
+	</div>
+	<div id="mainPageNav">
+		<div id="currentDirectoryBox">
+			<h3 id="folderName" class="headerObjects2"><i style="color:#79BDB4" class="glyphicon glyphicon-folder-save"></i>&nbsp;   Lee Grix</h3>
+			<br /><br /><p></p>
+			<h5 id="currentDirectory"><a href="#">index</a>/<a href="#">another</a>/</h5>
+			<a href="#"><h4 id="directoryOptions" onclick="directoryOptions()"><i style="color:#79BDB4;" class="glyphicon glyphicon-cog"></i> Folder Options</h4></a>
+			<a href="detailGenerator.html" target="_blank"><h4 id="directoryDownload"><i style="color:#79BDB4;" class="glyphicon glyphicon-briefcase"></i> Generator</h4></a>
+			<a href="#"><h4 id="directoryShare" onclick="directoryShare()"><i style="color:#79BDB4;" class="glyphicon glyphicon-link"></i> Create Link</h4></a>
+		</div>
+	</div>
+	<div id="mainPage">
+	<br/><br/><br/><br/><br/><br/>
+		<!-- <h2 id="emptyDemo" style="text-align:center;"></h2> -->
+		<div id="saveAlertSuccess" class="alert alert-info" role="alert">
+  			<strong>Your changes have been saved.</strong>
+		</div>
+		<div id="saveAlertFailure" class="alert alert-danger" role="alert">
+  			<strong>There is nothing to save.</strong>
+		</div>
+		<textarea id="emptyDemo" placeholder="Your details will appear here."></textarea>
+		<button id="saveDetails" onclick="saveDetails()">Save</button>
+		<button id="downloadDetails" onclick="downloadDetails()">Download</button>
+		<br /><p></p>
+		<button id="downloadLink" onclick="downloadLink()"><i class="glyphicon glyphicon-save"></i> Download</button>
+		<br /><br /><br />
+		<h1 id="demooo" style="z-index:4300;color:#000;opacity:1;"></h1>
+	</div>
+<script>
+	var folders = [
+	{site:"ASOS", code:"one"},
+	{site:"PayPal", code:"two"},
+	{site:"Lloyds", code:"three"},
+	{site:"Twitter", code:"four"},
+	{site:"YouTube", code:"five"}
+	];
+	var site = ["ASOS", "PayPal", "Lloyds", "Twitter", "YouTube"];
+	var key = ["one", "two", "three", "four", "five"];
+	// folders.sort();
+
+		function searchFolders() {
+			var searcher = document.getElementById('folderSearcher');
+			if (site.indexOf(searcher.value) >= 0) {
+				alert('yes');
+			} else {
+				alert('no');
+			}
+		}
+		// run searchFolders function on Enter key.
+		// this function is the onkeypress for input text field.
+		function runSearch(e) {
+			if (e.keyCode == 13) {
+				searchFolders();
+			}
+		}
+
+	for (var a in folders) {
+		var newElement = document.createElement('h2');
+		newElement.id == folders[a];
+		newElement.className = "folders";
+		newElement.innerHTML = ("<i id='userFolderIcon' class='glyphicon glyphicon-folder-close'></i>" + folders[a].site + "<i id='userFolderDelete' class='glyphicon glyphicon-remove' title='Delete' onclick='folderDelete()'></i>" + "" + "<i id='userFolderEdit' class='glyphicon glyphicon-edit' title='Edit' onclick='folderEdit()'></i>").toString();
+
+		newElement.onclick = function() {
+			if (confirm('Do you want to display these details?')) {
+				document.getElementById('emptyDemo').innerHTML = (
+					"Site: " + folders[a].site +
+					"\n" +
+					"Username: " +
+					"\n" +
+					"Email: " +
+					"\n" +
+					"Key: " + folders[a].code).toString();
+			} else {
+				document.getElementById('emptyDemo').innerHTML = "";
+			}
+		}
+		document.getElementById('userFolders').appendChild(newElement);
+		folders.sort();
+
+		function folderNew() {
+			var folderNewTitle = prompt("New Folder", "");
+			folders.push(folderNewTitle);
+
+			var idk = document.createElement('h2');
+			idk.className = "folders";
+			idk.innerHTML = ("<i id='userFolderIcon' class='glyphicon glyphicon-folder-close'></i>" + folderNewTitle + "<i id='userFolderDelete' class='glyphicon glyphicon-remove' title='Delete' onclick='folderDelete()'></i>" + "" + "<i id='userFolderEdit' class='glyphicon glyphicon-edit' title='Edit' onclick='folderEditt()'></i>").toString();
+
+			idk.onclick = function() {
+				document.getElementById('emptyDemo').innerHTML = (
+					"Site: " + folderNewTitle +
+					"\n" +
+					"Username: " + 
+					"\n" +
+					"Email: " +
+					"\n" +
+					"Key: "
+				).toString();
+			}
+			document.getElementById('userFolders').appendChild(idk);
+			folders.sort();
+		}
+		function refreshFolders() {
+			// JS - sort array.
+			folders.sort();
+			// JS - sort table.
+
+		}
+		function folderEdit() {
+			var folderEditTitle = prompt("Rename Folder", newElement);
+		}
+		function folderEditt() {
+			var folderEditTitlee = prompt("Rename Folder", folderNewTitle);
+		}
+		function folderDelete() {
+			folders.pop();
+		}
+		/* function directoryDownload() {
+
+		} */
+	}
+		function downloadLink() {
+			// create initial arrays.
+  			var a = [];
+  			var chars = ['#', '%', '£', '!', '?', '&'];
+  			for (var i = 97; i <= 122; i++) {
+  				a[a.length] = String.fromCharCode(i).toUpperCase();
+  			      
+  			  	// create random letters.
+  				var one = a[Math.floor(Math.random() * a.length)];
+  			  	var two = a[Math.floor(Math.random() * a.length)];
+  			  	var three = a[Math.floor(Math.random() * a.length)];
+  			  	var four = a[Math.floor(Math.random() * a.length)];
+  			  	var five = a[Math.floor(Math.random() * a.length)];
+  			  	var six = a[Math.floor(Math.random() * a.length)];
+  			  	var seven = a[Math.floor(Math.random() * a.length)];
+  			  	var eight = a[Math.floor(Math.random() * a.length)];
+ 			}
+  			  	// create random numbers.
+  			  	var int1 = Math.floor(Math.random() * 10);
+  			  	var int2 = Math.floor(Math.random() * 10);
+  			  	var ints = int1.toFixed(0) + int2.toFixed(0);
+  			  	var intsDecimal = int1.toFixed(0) + "." + int2.toFixed(0);
+  			  	
+  			  	// create random characters, based on array (chars).
+  			  	var randChar = chars[Math.floor(Math.random() * chars.length).toFixed(0)];
+  			  	
+  			  	// create variable moving all letters, numbers and characters together.
+  			  	var c = one + two + three + four + five + six + seven + eight + ints + randChar;
+				
+  			  	// display variable c.
+  			  	document.getElementById('demooo').innerHTML = c;
+		}
+</script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Detail Generator</title>
+  <meta charset="UTF-8">
+  <link rel="shortcut icon" href="assets/img/favicon.ico" type="image/x-icon" />
+  <script src="assets/js/detailGenerator.js"></script>
+</head>
+<body>
+
+<p>Using simple JS to create a random password.</p>
+
+<button onclick="passwordGen()">CLICK</button>
+
+<h4>Your username is:</h4>
+<h3 id="username"></h3>
+
+<button id="copyBtn" onclick="copyBtn(document.getElementById('username').innerHTML)" style="display:none;">Copy</button>
+
+<h4>Your password is:</h4>
+<h3 id="userPass"></h3>
+
+<button id="copyBtn1" onclick="copyBtn1(document.getElementById('userPass').innerHTML)" style="display:none;">Copy</button>
+<br /><br />
+
+<p id="passwordHint" style="display:none;">If you're not happy with your credentials, click the button again.</p>
+
+</body>
+</html>

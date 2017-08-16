@@ -1,0 +1,26 @@
+/* 
+HASH ALL PASSWORDS:
+
+Change size of password column to 42:
+ALTER TABLE USER_TABLE MODIFY 'PASSWORD_COLUMN' VARCHAR(42)
+
+Update password column:
+UPDATE USER_TABLE
+SET 'PASSWORD_COLUMN' = PASSWORD('PASSWORD_COLUMN')
+
+*/ 
+
+/* 
+SALT ALL PASSWORDS (PHP):
+// hash(60) a password string.
+echo(password_hash('SOME_PASSWORD_VALUE', PASSWORD_DEFAULT));
+
+// verify what a hash says, with given guesses.
+$hash = 'SOMELARGESTRING_HERE';
+$attempt = 'SOMEGUESS';
+if (password_verify($attempt, $hash)) {
+	echo('Found! The password is: ' . $attempt);
+} else {
+	echo('Invalid password!');
+}
+*/
