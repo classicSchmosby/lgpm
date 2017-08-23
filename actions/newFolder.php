@@ -9,7 +9,9 @@ $dbConn = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
 date_default_timezone_set('Europe/London');
 $date = date('Y-m-d H:i:s', time());
 
-mysqli_query($dbConn, "INSERT INTO folders (siteName, dateCreated) VALUES('$_POST[newFolder]', '$date')");
+$newFolderValue = ($_POST[newFolder]);
+
+mysqli_query($dbConn, "INSERT INTO folders (siteName, siteKey, dateCreated) VALUES('$newFolderValue', '{$newFolderValue}_key', '$date')");
 
 header("Location: ../home.php");
 ?>

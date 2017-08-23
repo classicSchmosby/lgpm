@@ -92,15 +92,10 @@
 								// recently renamed variable.
    								$deleteFolder = mysqli_query($conn, "DELETE FROM folders WHERE siteId = '" . $_POST['deleteFolder'] . "'");
 							}
-						if (isset($_POST['renameFolder']))
-							{
-								// create variable for javascript prompt?
-								$updatedFolder = mysqli_real_escape_string($_POST['TEXTBOX_NAME']);
-								$renameFolder = mysqli_query($conn, "UPDATE folders SET siteName='" . $updatedFolder .  "' WHERE siteId = '" . $_POST['renameFolder'] . "'");
-							}
 
 					$results = mysqli_query($conn, "SELECT * FROM folders WHERE hidden = 0 ORDER BY siteName asc");
 					while ($row = mysqli_fetch_assoc($results)): ?>
+						<!-- NEED TO WRAP IN TABLE - FOR SEARCHING -->
 							<tr class="folders">
 								<td class="userFolders">
 									<span class="userFolderIcon"><i class="glyphicon glyphicon-folder-close"></i>
@@ -108,9 +103,8 @@
 									</span>
 
 									<form method="POST">
-										<button name="renameFolder" class="btn renameFolder" title="Rename Folder" value="<?= $row['siteId'] ?>"><i class="glyphicon glyphicon-trash"></i></button>
+										<button name="renameFolder" class="btn renameFolder" onclick="editFolder()" title="Rename Folder" value="<?= $row['siteId'] ?>"><i class="glyphicon glyphicon-pencil"></i></button>
 									</form>
-									
 									<form method="POST">
 										<button name="deleteFolder" class="btn deleteFolder" title="Delete Folder" value="<?= $row['siteId'] ?>"><i class="glyphicon glyphicon-trash"></i></button>
 									</form>
@@ -213,6 +207,21 @@
 	function somethings() {
 		var u = document.getElementsByClassName('userFolderIcon').value;
 		document.getElementById('emptyDemo').innerHTML = (u);
+	}
+	function editFolder() {
+		var prop("Rename Folder", "");
+		$.ajax({
+			type: "POST",
+			// send request to this page:
+			url: "actions/renameFolder.php",
+			data: prop,l
+			success: function(data) {
+				alert(<?php echo($_POST['data']); ?>);
+			}
+			error: function(data) {
+				alert('oh snap!');
+			}
+		});
 	}
 </script>
 </body>

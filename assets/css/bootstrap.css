@@ -3050,6 +3050,10 @@ input[type="button"].btn-block {
   content: "\e161";
 }
 
+.glyphicon-enter:before {
+  content: "\e161";
+}
+
 .glyphicon-flash:before {
   content: "\e162";
 }
