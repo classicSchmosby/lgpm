@@ -42,7 +42,7 @@
 	<div id="sideNav">
 
 		<form id="newFolderForm" action="actions/newFolder.php" method="post">
-			<input id="newFolder" name="newFolder" type="text" placeholder="New Folder" required="required" autocomplete="off" value="" />
+			<input id="newFolder" name="newFolder" type="text" placeholder="New Folder" required="required" autocomplete="off" value="" autofocus />
 			<button id="createFolder" title="Create Folder! [Enter]">
 				<i style="color:#333;" class="glyphicon glyphicon-plus"></i> Create!
 			</button>	
@@ -115,7 +115,7 @@
 				<div id="folderTblWrapper">
 					<table id="folderTbl">
 						<?php
-						$results = mysqli_query($conn, "SELECT * FROM folders WHERE hidden = 0 ORDER BY siteName asc");
+						$results = mysqli_query($conn, "SELECT * FROM folders WHERE (hidden = 0 AND FK_userId = 1) ORDER BY siteName asc");
 						while ($row = mysqli_fetch_assoc($results)): ?>
 							<tr class="folders">
 								<td class="userFolders">
@@ -255,8 +255,14 @@
 		}
 	}
 	$(document).ready(function() {
+		// clear all input values on page load.
 		$('#emptyDemo').value = '';
+		$('#newFolder').value = '';
+		$('#folderSearcher').value = '';
+		// enter NOTHING into inputs
 		$('#emptyDemo').innerHTML = '';
+		$('#newFolder').innerHTML = '';
+		$('fodlerSearcher').innerHTML = '';
 	});
 
 
