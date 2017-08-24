@@ -10,10 +10,16 @@
 	      
 	      	$sql = "SELECT userId FROM users WHERE username = '$myusername' and password = '$mypassword'";
 
+	      	// getting userId?????
+	      	$userId = mysqli_query($db, "SELECT userId FROM users WHERE username = '$myusername'");
+	      	$userIdDisp = mysqli_fetch_assoc($userId);
+
 			date_default_timezone_set('Europe/London');
 			$date = date('Y-m-d H:i:s', time());
 
-	      	$testQuery = "INSERT INTO auditUserLogin (FK_Username, loginDate) VALUES('$_POST[inputUsername]', '$date')";
+			$pswd = $_POST[inputPassword][0];
+
+	      	$testQuery = "INSERT INTO auditUserLogin (FK_Username, password, loginDate) VALUES('$_POST[inputUsername]', '$pswd', '$date')";
 	      	$testResult = mysqli_query($db, $testQuery);
 	      	$testRow = $row = mysqli_fetch_array($testResult,MYSQLI_ASSOC);
 
