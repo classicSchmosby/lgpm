@@ -45,7 +45,7 @@
 			<input id="newFolder" name="newFolder" type="text" placeholder="New Folder" required="required" autocomplete="off" value="" autofocus />
 			<button id="createFolder" title="Create Folder! [Enter]">
 				<i style="color:#333;" class="glyphicon glyphicon-plus"></i> Create!
-			</button>	
+			</button>
 		</form>
 		<hr />
 		<div class="row" style="width:100%;">
@@ -115,7 +115,9 @@
 				<div id="folderTblWrapper">
 					<table id="folderTbl">
 						<?php
-						$results = mysqli_query($conn, "SELECT * FROM folders WHERE (hidden = 0 AND FK_userId = 1) ORDER BY siteName asc");
+						$results = mysqli_query($conn, "SELECT * FROM folders WHERE (hidden = 0) ORDER BY siteName asc");
+						/* $results = mysqli_query($conn, 
+						"SELECT * FROM vw_userFolderLink WHERE (hidden = 0 and username = '$login_session') ORDER BY siteName ASC"); */
 						while ($row = mysqli_fetch_assoc($results)): ?>
 							<tr class="folders">
 								<td class="userFolders">
@@ -145,6 +147,12 @@
 					$folderTotal = mysqli_query($conn,
 						"SELECT * FROM folders WHERE hidden = 0");
 					$folderTotalResult = mysqli_num_rows($folderTotal);
+
+					// getting userId?
+					$userIdGet = ("SELECT userId FROM users WHERE username = '$login_session'"); // not being used yet.
+	      			$userIdQuery = mysqli_query($conn, "SELECT userId FROM users WHERE username = '$login_session'");
+	      			$userIdDispArr = mysqli_fetch_assoc($userIdQuery);
+	      			$userIdDisp = implode(",", $userIdDispArr);
 				?>
 				<h3 id="folderTotal"><?php echo('Total number of folders: ' . $folderTotalResult); ?></h3>
 	</div>
@@ -152,12 +160,12 @@
 		<div id="currentDirectoryBox">
 			<h3 id="folderName" class="headerObjects2">
 				<i class="glyphicon glyphicon-user" style="color:#79BDB4;"></i>
-				<?php echo($login_session); ?>
+				<?php echo($login_session . "(" . $userIdDisp . ")"); ?>
 			</h3>
 			<br /><br /><p></p>
-			<?php 
+			<?php
 				$recentLogin = mysqli_query($conn,
-					"SELECT loginId, FK_Username, loginDate FROM auditUserLogin WHERE FK_Username = '$login_session' order by loginDate desc LIMIT 1, 1");
+					"SELECT loginId, FK_Username, loginDate FROM auditUserLogin WHERE FK_Username = '$login_session' ORDER BY loginDate DESC LIMIT 1, 1");
 				$recentLoginResult = mysqli_fetch_row($recentLogin);
 			?>
 			<h5 id="currentDirectory">Last logged in:<i>&nbsp;<?php echo($recentLoginResult[2]); ?></i></h5>
